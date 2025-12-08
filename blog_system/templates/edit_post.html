@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Post - Blog System{% endblock %}
+
+{% block content %}
+    <h2>Edit Post</h2>
+    
+    <form id="editForm">
+        <div>
+            <label for="authorId">Author:</label>
+            <select id="authorId" name="authorId" required>
+                <option value="">Select Author</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}" {% if user.id == post.authorId %}selected{% endif %}>
+                        {{ user.login }} ({{ user.email }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="{{ post.title }}" required minlength="1">
+        </div>
+        
+        <div>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required minlength="1">{{ post.content }}</textarea>
+        </div>
+        
+        <button type="submit" class="btn">Update Post</button>
+        <a href="/posts/html/{{ post.id }}" class="btn">Cancel</a>
+    </form>
+
+    <script>
+        document.getElementById('editForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                authorId: parseInt(document.getElementById('authorId').value),
+                title: document.getElementById('title').value,
+                content: document.getElementById('content').value
+            };
+            
+            try {
+                const response = await fetch('/posts/{{ post.id }}', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    alert('Post updated successfully!');
+                    window.location.href = '/posts/html/{{ post.id }}';
+                } else {
+                    const error = await response.json();
+                    alert('Error: ' + error.detail);
+                }
+            } catch (error) {
+                alert('Error updating post: ' + error.message);
+            }
+        });
+    </script>
+{% endblock %}
