@@ -1,0 +1,50 @@
+erDiagram
+    USERS {
+        int id PK
+        varchar username UK
+        varchar email UK
+        varchar password_hash
+        timestamp created_at
+    }
+    CATEGORIES {
+        int id PK
+        varchar name UK
+        varchar slug UK
+        varchar color
+    }
+    POSTS {
+        int id PK
+        varchar title
+        varchar slug UK
+        text content
+        int user_id FK
+        int category_id FK
+        int views
+        timestamp created_at
+    }
+    COMMENTS {
+        int id PK
+        int post_id FK
+        int user_id FK
+        int parent_id FK
+        text content
+    }
+    FAVORITES {
+        int id PK
+        int user_id FK
+        int post_id FK
+    }
+    SUBSCRIPTIONS {
+        int id PK
+        int follower_id FK
+        int following_id FK
+    }
+    
+    USERS ||--o{ POSTS : "создает"
+    USERS ||--o{ COMMENTS : "пишет"
+    USERS ||--o{ FAVORITES : "сохраняет"
+    USERS }o--o{ SUBSCRIPTIONS : "подписывается"
+    POSTS ||--o{ COMMENTS : "имеет"
+    POSTS }o--|| CATEGORIES : "принадлежит"
+    POSTS ||--o{ FAVORITES : "в_избранном"
+    COMMENTS ||--o{ COMMENTS : "ответ_на"

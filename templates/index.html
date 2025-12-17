@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}All Posts - Blog System{% endblock %}
+
+{% block content %}
+    <h2>All Posts</h2>
+    
+    {% if posts %}
+        {% for item in posts %}
+            <div class="post">
+                <h2><a href="/posts/html/{{ item.post.id }}">{{ item.post.title }}</a></h2>
+                <div class="post-meta">
+                    By {{ item.author_name }} | 
+                    Created: {{ item.post.createdAt.strftime('%Y-%m-%d %H:%M') }} |
+                    Updated: {{ item.post.updatedAt.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+                <p>{{ item.post.content[:200] }}{% if item.post.content|length > 200 %}...{% endif %}</p>
+                <div>
+                    <a href="/posts/html/{{ item.post.id }}" class="btn">Read More</a>
+                    <a href="/posts/html/edit/{{ item.post.id }}" class="btn">Edit</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No posts yet. <a href="/posts/html/create/new">Create the first post!</a></p>
+    {% endif %}
+{% endblock %}

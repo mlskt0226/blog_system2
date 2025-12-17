@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Blog System{% endblock %}
+
+{% block content %}
+    <div class="post">
+        <h2>{{ post.title }}</h2>
+        <div class="post-meta">
+            By {{ author_name }} | 
+            Created: {{ post.createdAt.strftime('%Y-%m-%d %H:%M') }} |
+            Updated: {{ post.updatedAt.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+        <div style="white-space: pre-wrap; margin: 20px 0;">{{ post.content }}</div>
+        <div>
+            <a href="/posts/html/" class="btn">Back to All Posts</a>
+            <a href="/posts/html/edit/{{ post.id }}" class="btn">Edit Post</a>
+        </div>
+    </div>
+{% endblock %}

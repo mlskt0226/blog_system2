@@ -1,0 +1,53 @@
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "blog-system"
+version = "1.0.0"
+description = "HSE Lyceum Blog System (FastAPI)"
+authors = ["mlskt0226"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115"
+uvicorn = {extras = ["standard"], version = "^0.30"}
+sqlalchemy = "^2.0"
+alembic = "^1.13"
+pydantic = "^2.9"
+python-dotenv = "^1.0"
+psycopg2-binary = "^2.9"  # для PostgreSQL
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.1"
+black = "^24.8"
+mypy = "^1.11"
+pre-commit = "^3.8"
+isort = "^5.13"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = ["E", "F", "I", "UP", "B", "Q", "ARG", "PT", "SLF"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+disallow_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+plugins = ["sqlalchemy.ext.mypy.plugin"]
